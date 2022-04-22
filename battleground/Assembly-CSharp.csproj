@@ -81,31 +81,31 @@
     <None Include="Assets\PolygonBattleRoyale\Shader\DamageZone.shader" />
     <None Include="Assets\Shaders\Dissolve.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/FPS Game/battleground/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -285,10 +285,10 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="System.EnterpriseServices">
-      <HintPath>C:/FPS Game/battleground/Assets/Plugins/Excel/System.EnterpriseServices.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Assets/Plugins/Excel/System.EnterpriseServices.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
-      <HintPath>C:/FPS Game/battleground/Assets/Plugins/Excel/npoi/NPOI.dll</HintPath>
+      <HintPath>C:/GitHub/FPS-GAME-PROJECT/battleground/Assets/Plugins/Excel/npoi/NPOI.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -5,7 +5,9 @@ using UnityObject = UnityEngine.Object;
 /// <summary>
 /// Resource.Load를 래핑하는 클래스
 /// 나중엔 어셋번들로 변경됨.
+/// 2022.04.22
 /// </summary>
+
 public class ResourceManager
 {
    public static UnityObject Load(string path)
