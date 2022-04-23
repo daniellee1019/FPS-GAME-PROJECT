@@ -40,10 +40,97 @@ public class EffectTool : EditorWindow  // Tool 안에 window를 띄울 수 있�
         }
         EditorGUILayout.BeginVertical();
         {
+
+            //상단. add, remove, copy
             UnityObject source = effectSource;
-            EditorHelper.EditorToolTopLayer(effectData, ref selection, ref source, this.uiWidthMiddle); // source에 Sound, Audio 등 어떤 오브젝트가 들어갈지 모르게 때문에 45번 줄에 source를 캐스팅 해줌.
+            EditorHelper.EditorToolTopLayer(effectData, ref selection, ref source, this.uiWidthMiddle); 
+            // source에 Sound, Audio 등 어떤 오브젝트가 들어갈지 모르게 때문에 45번 줄에 source를 캐스팅 해줌.
             effectSource = (GameObject)source; // 캐스팅 -> 명시적변환 
+
+            EditorGUILayout.BeginHorizontal();
+            {   // 중간. 데이터 목록
+                EditorHelper.EditorToolListLayer(ref SP1, effectData, ref selection, ref source, this.uiWidthLarge);
+                effectSource = (GameObject)source;
+
+                //설정부분
+                EditorGUILayout.BeginVertical();
+                {
+                    SP2 = EditorGUILayout.BeginScrollView(this.SP2);
+                    {
+                        if(effectData.GetDataCount() > 0)
+                        {
+                            EditorGUILayout.BeginVertical();
+                            {
+                                EditorGUILayout.Separator(); // 구분자
+                                EditorGUILayout.LabelField("ID", selection.ToString(), GUILayout.Width(uiWidthLarge));
+                                effectData.names[selection] = EditorGUILayout.TextField("이름.", effectData.names[selection], GUILayout.Width(uiWidthLarge * 1.5f));
+                                effectData.effectCilps[selection].effectType = (EffectType)EditorGUILayout.EnumPopup("이펙트 타입.", effectData.effectCilps[selection].effectType, GUILayout.Width(uiWidthLarge));
+                                EditorGUILayout.Separator();
+                                if(effectSource == null && effectData.effectCilps[selection].effectName != string.Empty)
+                                {
+                                    effectData.effectCilps[selection].PreLoad();
+                                    effectSource = Resources.Load(effectData.effectCilps[selection].effectPath + effectData.effectCilps[selection].effectName) as GameObject;
+                                }
+                                effectSource = (GameObject)EditorGUILayout.ObjectField("이펙트", this.effectSource, typeof(GameObject), false, GUILayout.Width(uiWidthLarge * 1.5f));
+                                if (effectSource != null) // 넣은 effectSource를 자동으로 경로와 이름을 찾아서 데이터 추가.
+                                {
+                                    effectData.effectCilps[selection].effectPath = EditorHelper.GetPath(this.effectSource);
+                                    effectData.effectCilps[selection].effectName = effectSource.name;
+                                }
+                                else 
+                                {
+                                    effectData.effectCilps[selection].effectPath = string.Empty;
+                                    effectData.effectCilps[selection].effectName = string.Empty;
+                                    effectSource = null;
+                                }
+                                EditorGUILayout.Separator();
+                            }
+                            EditorGUILayout.EndVertical();
+                        }
+                    }
+                    EditorGUILayout.EndScrollView();
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.EndVertical();
+
+        EditorGUILayout.Separator();
+        // 하단. reload & save
+        EditorGUILayout.BeginHorizontal();
+        {
+            if(GUILayout.Button("Reload Settings"))
+            {
+                effectData = CreateInstance<EffectData>();
+                effectData.LoadData();
+                selection = 0;
+                this.effectSource = null;  
+            }
+            if (GUILayout.Button("Save"))
+            {
+                EffectTool.effectData.SaveData();
+                CreteEnumStructure();
+                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate); // 파일이 추가됐으므로 에디터를 최적화 하는 기능.
+
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+    }
+
+    public void CreteEnumStructure()
+    {
+        string enumName = "EffectList";
+        StringBuilder builder = new StringBuilder();
+        builder.AppendLine();
+        for (int i = 0; i < effectData.names.Length; i++)
+        {
+            if(effectData.names[i] != string.Empty)
+            {
+                builder.AppendLine("    " + effectData.names[i] + "= " + i + ",");
+            }
+        }
+        EditorHelper.CreateEnumStructure(enumName, builder);
     }
 }
