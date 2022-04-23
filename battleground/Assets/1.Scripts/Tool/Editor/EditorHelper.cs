@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.IO;
 using System.Text;
+using UnityObject = UnityEngine.Object;
 
 public class EditorHelper
 {
@@ -65,4 +66,63 @@ public class EditorHelper
 		File.WriteAllText(FilePath, entittyTemplate);
 	}
 
+	// ref -> 데이터의 매개변수를 읽고 쓰는 것.
+	// 즉 -> 함수외부와 함수내부 양방향으로 통신하기 위해서 데이터 참조를 주고 받기 위한 개념
+	public static void EditorToolTopLayer(BaseData data, ref int selection, ref UnityObject source, int uiWidth) 
+    {
+		EditorGUILayout.BeginHorizontal();
+		{
+			if(GUILayout.Button("ADD", GUILayout.Width(uiWidth)))
+            {
+				data.AddData("New Data");
+				selection = data.GetDataCount() - 1; // 최종 리스트를 선택 .
+				source = null;
+            }
+			if(GUILayout.Button("COPY", GUILayout.Width(uiWidth)))
+			{
+				data.Copy(selection);
+				source = null;
+				selection = data.GetDataCount() - 1;
+            }
+			if(data.GetDataCount() > 1)
+            {
+				if(GUILayout.Button("REMOVE", GUILayout.Width(uiWidth)))
+                {
+					source = null;
+					data.RemoveData(selection);
+                }
+            }
+			// 선택바가 옆으로 넘어가지 않기 위한 코드.
+			if(selection > data.GetDataCount() - 1)
+            {
+				selection = data.GetDataCount() - 1;
+            }
+        }
+		EditorGUILayout.EndHorizontal();
+    }
+
+	public static void EditorToolListLayer(ref Vector2 ScrollPosition, BaseData data, ref int selection, ref UnityObject source, int uiWidth)
+    {
+        EditorGUILayout.BeginVertical(GUILayout.Width(uiWidth));
+        {
+			EditorGUILayout.Separator();
+            EditorGUILayout.BeginVertical("box");
+            {
+				ScrollPosition = EditorGUILayout.BeginScrollView(ScrollPosition);
+				{
+					if(data.GetDataCount() > 0)
+                    {
+						int lastSelection = selection; //어떤 ui를 select 했는지 알기 위해.
+						selection = GUILayout.SelectionGrid(selection, data.GetNameList(true),1); // true -> int 숫자 false -> string 이름 표시해줌.
+						if(lastSelection != selection) // 선택이 바뀌면
+                        {
+							source = null;
+                        }
+                    }
+                }
+				EditorGUILayout.EndScrollView();
+            }
+        }
+		EditorGUILayout.EndVertical();
+    }
 }
