@@ -30,7 +30,7 @@ public class EffectData : BaseData
     {
         Debug.Log($"xmlFilePath = {Application.dataPath} + {dataDirectory}");
         this.xmlFileName = Application.dataPath + dataDirectory;
-        TextAsset asset = (TextAsset)ResourceManager.Load(dataPath);
+        TextAsset asset = (TextAsset)Resources.Load(dataPath);
         if (asset == null || asset.text == null)
         {
             this.AddData("New Effect");
@@ -109,7 +109,7 @@ public class EffectData : BaseData
     {
         if(this.names == null)
         {
-            this.names = new string[] { name };
+            this.names = new string[] { newName };
             this.effectCilps = new EffectClip[] { new EffectClip() };
         }
         else

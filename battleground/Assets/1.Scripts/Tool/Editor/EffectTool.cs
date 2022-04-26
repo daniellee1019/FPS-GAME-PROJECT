@@ -120,7 +120,7 @@ public class EffectTool : EditorWindow  // Tool 안에 window를 띄울 수 있�
     }
 
     /// <summary>
-    /// Tools에서 enum 형식으로 데이터 구조 생성
+    /// Tools에서 enum 형식으로 데이터 구조 생성     
     /// </summary>
     public void CreteEnumStructure()
     {

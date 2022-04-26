@@ -122,7 +122,9 @@ public class EditorHelper
                 }
 				EditorGUILayout.EndScrollView();
             }
+			EditorGUILayout.EndVertical();
         }
 		EditorGUILayout.EndVertical();
     }
+	
 }
