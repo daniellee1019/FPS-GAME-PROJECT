@@ -73,7 +73,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
         ResetTargetOffsets();
         ResetFOV();
-        ResetVerticalAngle();
+        ResetMaxVerticalAngle();
 
 
     }
@@ -87,7 +87,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
     {
         this.targetFOV = defaultFOV;
     }
-    public void ResetVerticalAngle()
+    public void ResetMaxVerticalAngle()
     {
         targetMaxVerticleAngle = maxVerticalAngle;
     }
