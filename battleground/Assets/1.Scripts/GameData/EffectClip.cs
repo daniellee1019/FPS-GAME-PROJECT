@@ -22,7 +22,7 @@ public class EffectClip
     public void PreLoad()
     {
         this.effectFullPath = effectPath + effectName;
-        if(effectFullPath != string.Empty && this.effectPrefab == null)
+        if(this.effectFullPath != string.Empty && this.effectPrefab == null)
         {
             this.effectPrefab = ResourceManager.Load(effectFullPath) as GameObject;
 

@@ -29,7 +29,7 @@ public class EffectData : BaseData
     public void LoadData()
     {
         Debug.Log($"xmlFilePath = {Application.dataPath} + {dataDirectory}");
-        this.xmlFileName = Application.dataPath + dataDirectory;
+        this.xmlFilePath = Application.dataPath + dataDirectory;
         TextAsset asset = (TextAsset)Resources.Load(dataPath);
         if (asset == null || asset.text == null)
         {
@@ -94,8 +94,8 @@ public class EffectData : BaseData
                 xml.WriteElementString("id", ToString());
                 xml.WriteElementString("name", this.names[i]);
                 xml.WriteElementString("effectType", clip.effectType.ToString());
-                xml.WriteElementString("effectName", clip.effectName);
                 xml.WriteElementString("effectPath", clip.effectPath);
+                xml.WriteElementString("effectName", clip.effectName);
                 xml.WriteEndElement();
             }
             xml.WriteEndElement();

@@ -2,6 +2,8 @@
 using UnityEditor; // Editor라는 폴더 아래에 스크립트 파일이 구문을 쓸 수 있음.
 using System.Text;
 using UnityObject = UnityEngine.Object;
+using UnityEditor.EditorTools;
+using System;
 
 /// <summary>
 /// EffectClip 프로퍼티를 수정하기 위한 클래스이다. -> tool 
