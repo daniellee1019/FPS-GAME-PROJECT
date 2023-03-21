@@ -2,8 +2,6 @@
 using UnityEditor; // Editor라는 폴더 아래에 스크립트 파일이 구문을 쓸 수 있음.
 using System.Text;
 using UnityObject = UnityEngine.Object;
-using UnityEditor.EditorTools;
-using System;
 
 /// <summary>
 /// EffectClip 프로퍼티를 수정하기 위한 클래스이다. -> tool 
@@ -66,23 +64,23 @@ public class EffectTool : EditorWindow  // Tool 안에 window를 띄울 수 있�
                                 EditorGUILayout.Separator(); // 구분자
                                 EditorGUILayout.LabelField("ID", selection.ToString(), GUILayout.Width(uiWidthLarge));
                                 effectData.names[selection] = EditorGUILayout.TextField("이름.", effectData.names[selection], GUILayout.Width(uiWidthLarge * 1.5f));
-                                effectData.effectCilps[selection].effectType = (EffectType)EditorGUILayout.EnumPopup("이펙트 타입.", effectData.effectCilps[selection].effectType, GUILayout.Width(uiWidthLarge));
+                                effectData.effectClips[selection].effectType = (EffectType)EditorGUILayout.EnumPopup("이펙트 타입.", effectData.effectClips[selection].effectType, GUILayout.Width(uiWidthLarge));
                                 EditorGUILayout.Separator();
-                                if(effectSource == null && effectData.effectCilps[selection].effectName != string.Empty)
+                                if(effectSource == null && effectData.effectClips[selection].effectName != string.Empty)
                                 {
-                                    effectData.effectCilps[selection].PreLoad();
-                                    effectSource = Resources.Load(effectData.effectCilps[selection].effectPath + effectData.effectCilps[selection].effectName) as GameObject;
+                                    effectData.effectClips[selection].PreLoad();
+                                    effectSource = Resources.Load(effectData.effectClips[selection].effectPath + effectData.effectClips[selection].effectName) as GameObject;
                                 }
                                 effectSource = (GameObject)EditorGUILayout.ObjectField("이펙트", this.effectSource, typeof(GameObject), false, GUILayout.Width(uiWidthLarge * 1.5f));
                                 if (effectSource != null) // 넣은 effectSource를 자동으로 경로와 이름을 찾아서 데이터 추가.
                                 {
-                                    effectData.effectCilps[selection].effectPath = EditorHelper.GetPath(this.effectSource);
-                                    effectData.effectCilps[selection].effectName = effectSource.name;
+                                    effectData.effectClips[selection].effectPath = EditorHelper.GetPath(this.effectSource);
+                                    effectData.effectClips[selection].effectName = effectSource.name;
                                 }
                                 else 
                                 {
-                                    effectData.effectCilps[selection].effectPath = string.Empty;
-                                    effectData.effectCilps[selection].effectName = string.Empty;
+                                    effectData.effectClips[selection].effectPath = string.Empty;
+                                    effectData.effectClips[selection].effectName = string.Empty;
                                     effectSource = null;
                                 }
                                 EditorGUILayout.Separator();
