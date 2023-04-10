@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿using NPOI.SS.Formula.Functions;
+using NPOI.SS.UserModel;
+using NPOI.Util;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -57,7 +62,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
             audioRoot.SetParent(transform);
             audioRoot.localPosition = Vector3.zero;
         }
-        if(fadeA_audio != null)
+        if(fadeA_audio == null)
         {
             GameObject fadeA = new GameObject(FadeA, typeof(AudioSource));
             fadeA.transform.SetParent(audioRoot);
@@ -78,7 +83,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
             UI_audio = ui.GetComponent<AudioSource>();
             UI_audio.playOnAwake = false;
         }
-        if(this.effect_audios == null && this.effect_audios.Length == 0)
+        if(this.effect_audios == null || this.effect_audios.Length == 0)
         {
             this.effect_PlayStartTime = new float[EffectChannelCount];
             this.effect_audios = new AudioSource[EffectChannelCount];
@@ -91,11 +96,11 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
                 this.effect_audios[i].playOnAwake = false;
             }
         }
-        if (mixer != null)
+        if (this.mixer != null)
         {
-            this.fadeA_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(BGMVolumeParam)[0];
-            this.fadeB_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(BGMVolumeParam)[0];// 오디오 볼륨 조절.
-            this.UI_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(UIVolumeParam)[0];
+            this.fadeA_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(BGMGroupName)[0];
+            this.fadeB_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(BGMGroupName)[0];// 오디오 볼륨 조절.
+            this.UI_audio.outputAudioMixerGroup = mixer.FindMatchingGroups(UIGroupName)[0];
             for (int i = 0; i < this.effect_audios.Length; i++) // 이펙트
             {
                 this.effect_audios[i].outputAudioMixerGroup = mixer.FindMatchingGroups(EffectGroupName)[0];
@@ -220,7 +225,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         {
             return false;
         }
-        if(currentSound != null && currentSound.realID == clip.realID && IsPlaying() && currentSound.isFadeIn == false)
+        if(currentSound != null && currentSound.realID == clip.realID && IsPlaying() && currentSound.isFadeOut == false)
         {
             return false;
         }

@@ -91,6 +91,7 @@
     <Compile Include="Assets\1.Scripts\Util\SingletonMonobehaviour.cs" />
     <Compile Include="Assets\1.Scripts\Util\VectorHelper.cs" />
     <None Include="Assets\9.ResourcesData\Resources\Data\effectData.xml" />
+    <None Include="Assets\9.ResourcesData\Resources\Data\soundData.xml" />
     <None Include="Assets\PolygonBattleRoyale\Shader\DamageZone.shader" />
     <None Include="Assets\Shaders\Dissolve.shader" />
     <Reference Include="Unity.Timeline.Editor">

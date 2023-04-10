@@ -72,7 +72,7 @@ public class SoundData : BaseData
 
                 xml.WriteEndElement();
             }
-            xml.WriteEndDocument();
+            xml.WriteEndElement();
             xml.WriteEndDocument();
         }
     }
@@ -146,6 +146,8 @@ public class SoundData : BaseData
                             soundClips[currentID].clipName = reader.ReadString();
                             break;
                         case "checktimecount":
+                            break;
+                        case "checktime":
                             SetLoopTime(true, soundClips[currentID], reader.ReadString());
                             break;
                         case "settime":

@@ -59,7 +59,7 @@ public class SoundClip
 
     public AudioClip GetClip()
     {
-        if (clip == null)
+        if (this.clip == null)
         {
             PreLoad();
         }
@@ -139,7 +139,7 @@ public class SoundClip
         else if(this.isFadeOut == true)
         {
             this.fadeTime1 += time;
-            audio.volume = Interpolate.Ease(this.interpolate_Func, maxVolume, 0 - this.maxVolume, fadeTime1, fadeTime2);
+            audio.volume = Interpolate.Ease(this.interpolate_Func, maxVolume, 0 - maxVolume, fadeTime1, fadeTime2);
             if(this.fadeTime1 >= this.fadeTime2)
             {
                 this.isFadeOut = false;
