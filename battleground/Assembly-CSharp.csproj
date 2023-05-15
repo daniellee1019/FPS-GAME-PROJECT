@@ -69,6 +69,8 @@
     <Compile Include="Assets\1.Scripts\Common\ButtonName.cs" />
     <Compile Include="Assets\1.Scripts\Common\GlobalDefine.cs" />
     <Compile Include="Assets\1.Scripts\Common\TagAndLayer.cs" />
+    <Compile Include="Assets\1.Scripts\Contents\AlertChecker.cs" />
+    <Compile Include="Assets\1.Scripts\Contents\HealthBase.cs" />
     <Compile Include="Assets\1.Scripts\Contents\InteractiveWeapon.cs" />
     <Compile Include="Assets\1.Scripts\GameData\BaseData.cs" />
     <Compile Include="Assets\1.Scripts\GameData\EffectClip.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Assets\1.Scripts\Player\AimBehaviour.cs" />
     <Compile Include="Assets\1.Scripts\Player\BehaviorController.cs" />
     <Compile Include="Assets\1.Scripts\Player\MoveBehaviour.cs" />
+    <Compile Include="Assets\1.Scripts\Player\PlayerHealth.cs" />
     <Compile Include="Assets\1.Scripts\Player\ShootBehaviour.cs" />
     <Compile Include="Assets\1.Scripts\Tool\BaseInteraction.cs" />
     <Compile Include="Assets\1.Scripts\Tool\EventHandler.cs" />

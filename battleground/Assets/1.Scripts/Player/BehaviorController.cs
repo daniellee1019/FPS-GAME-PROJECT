@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 /// <summary>
 /// 현재 동작, 기본 동작, 오버라이딩 동작, 잠긴 동작, 마우스 이동값
@@ -133,6 +134,7 @@ public class BehaviorController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Profiler.BeginSample("FixedUpdate_BehaviourController");
         bool isAnyBehaviorActive = false;
         if(behaviorLocked > 0 || overrideBehaviours.Count == 0)
         {
@@ -157,6 +159,7 @@ public class BehaviorController : MonoBehaviour
             myRigidbody.useGravity = true;
             Repositioning();
         }
+        Profiler.EndSample();
     }
     private void LateUpdate() // 카메라이동 업데이트
     {
@@ -267,20 +270,20 @@ public class BehaviorController : MonoBehaviour
     }
     public void SetLastDirection(Vector3 direction)
     {
-        lastDirection = direction; ;
+        lastDirection = direction;
     }
 }
 
 public abstract class GenericBehaviour : MonoBehaviour
 {
     protected int speedFloat;
-    protected BehaviorController behaviorController;
+    protected BehaviorController behaviourController;
     protected int behaviorCode;
     protected bool canSprint;
 
     private void Awake()
     { 
-        this.behaviorController = GetComponent<BehaviorController>();
+        this.behaviourController = GetComponent<BehaviorController>();
         speedFloat = Animator.StringToHash(FC.AnimatorKey.Speed);
         canSprint = true;
 

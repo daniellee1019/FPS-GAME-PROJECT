@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
         if(soundData == null)
         {
             soundData = ScriptableObject.CreateInstance<SoundData>();
-            effectData.LoadData();
+            soundData.LoadData();
         }
     }
 

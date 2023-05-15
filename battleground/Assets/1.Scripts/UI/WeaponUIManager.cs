@@ -30,7 +30,7 @@ public class WeaponUIManager : MonoBehaviour
         }
         if (bulletMag == null)
         {
-            bulletMag = transform.Find("WeaponHUD/Mag").gameObject;
+            bulletMag = transform.Find("WeaponHUD/Data/Mag").gameObject;
         }
         if(totalBulletsHUD == null){
             totalBulletsHUD = transform.Find("WeaponHUD/Data/bulletAmount").GetComponent<Text>();

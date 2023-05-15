@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EffectClip
 {   //추후 속성은 같지만 다른 이펙트 클립이 있을 수 있어서 분별용.
-    public int realID = 0;
+    public int realId = 0;
 
     public EffectType effectType = EffectType.NORMAL;
     public GameObject effectPrefab = null;
@@ -46,7 +46,7 @@ public class EffectClip
         {
             this.PreLoad();
         }
-        if (effectPrefab != null)
+        if (this.effectPrefab != null)
         {
             GameObject effect = GameObject.Instantiate(effectPrefab, Pos, Quaternion.identity);
             return effect;

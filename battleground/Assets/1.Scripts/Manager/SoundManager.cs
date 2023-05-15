@@ -114,9 +114,9 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
     public void SetBGMVolume(float currentRatio)//현재비율
     {
         currentRatio = Mathf.Clamp01(currentRatio); // 0과 1 사이에 값을 정해줌.
-        float voluem = Mathf.Lerp(minVolume, maxVolume, currentRatio); // 보통 슬라이더바로 볼륨을 지정하기 때문에 퍼센트 비율로 설정.
-        this.mixer.SetFloat(BGMVolumeParam, voluem);
-        PlayerPrefs.SetFloat(BGMVolumeParam, voluem);
+        float volume = Mathf.Lerp(minVolume, maxVolume, currentRatio); // 보통 슬라이더바로 볼륨을 지정하기 때문에 퍼센트 비율로 설정.
+        this.mixer.SetFloat(BGMVolumeParam, volume);
+        PlayerPrefs.SetFloat(BGMVolumeParam, volume);
     }
 
     public float GetBGMVolume()
@@ -530,5 +530,15 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         this.FadeOut(0.5f, Interpolate.EaseType.Linear);
         this.currentPlayingType = MusicPlayingType.None;
         StopAllCoroutines();
+    }
+
+    /// <summary>
+    /// enemy의 클래스에 따라 사격 사운드를 교체.
+    /// </summary>
+
+    public void PlayShotSound(string ClassID, Vector3 position, float volume)
+    {
+        SoundList sound = (SoundList)Enum.Parse(typeof(SoundList), ClassID.ToLower());
+        PlayOneShotEffect((int)sound, position, volume);
     }
 }

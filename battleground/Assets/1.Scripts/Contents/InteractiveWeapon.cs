@@ -41,7 +41,7 @@ public class InteractiveWeapon : MonoBehaviour
     private int fullMag, maxBullets; // 재장전시 꽉 채우는 탄의 양과 한번에 채울 수 있는 최대 총알량
     private GameObject player, gameController;
     private ShootBehaviour playerInventory; // 인벤토리를 따로 빼서 만드는게 정석이다. 실무에선 이렇게 x 
-    private BoxCollider weaponCllider;
+    private BoxCollider weaponCollider;
     private SphereCollider interactiveRadius;
 
     private Rigidbody weaponRigidbody;
@@ -81,10 +81,10 @@ public class InteractiveWeapon : MonoBehaviour
         }
 
         //인터랙셩을 위한 충돌체 설정
-        weaponCllider = transform.GetChild(0).gameObject.AddComponent<BoxCollider>();
+        weaponCollider = transform.GetChild(0).gameObject.AddComponent<BoxCollider>();
         // 자식에다가 콜라이더를 하는 이유는 상위에는 트리거형 콜라이더를 설정해야되기때문.
         // why? 위에 설명했듯이 무기를 줍기 위해서는 트리거를 이용해서 주워야된다. 이게 상위 개념
-        CreateInteractiveRadius(weaponCllider.center); // 이 구모양의 트리거에 들어가면 인터랙션된다.
+        CreateInteractiveRadius(weaponCollider.center); // 이 구모양의 트리거에 들어가면 인터랙션된다.
         weaponRigidbody = gameObject.AddComponent<Rigidbody>();
 
         if(this.weaponType == WeaponType.NONE)
@@ -126,7 +126,7 @@ public class InteractiveWeapon : MonoBehaviour
     }
 
     // 총알량 업데이트 함수.
-    private void UpdateUHD()
+    private void UpdateHUD()
     {
         weaponHUD.UpdateWeaponHUD(weaponSprite, currentMagCapacity, fullMag, totalBullets);
     }
@@ -139,16 +139,16 @@ public class InteractiveWeapon : MonoBehaviour
             SoundManager.Instance.PlayOneShotEffect((int)pickSound, transform.position, 0.5f);
         }
         weaponHUD.Toggle(active);
-        UpdateUHD();
+        UpdateHUD();
     }
 
     private void Update()
     {
-        if(this.pickable && Input.GetKeyDown(ButtonName.Pick))
+        if(this.pickable && Input.GetButtonDown(ButtonName.Pick))
         {
             //disable phyisics weapon
             weaponRigidbody.isKinematic = true;
-            weaponCllider.enabled = false;
+            weaponCollider.enabled = false;
             playerInventory.AddWeapon(this);
             Destroy(interactiveRadius);
             this.Toggle(true);
@@ -192,8 +192,8 @@ public class InteractiveWeapon : MonoBehaviour
         transform.position += Vector3.up; // 자연스러운 떨어짐을 위해.
         weaponRigidbody.isKinematic = false; // 물리 활성화
         this.transform.parent = null;
-        CreateInteractiveRadius(weaponCllider.center);
-        this.weaponCllider.enabled = true;
+        CreateInteractiveRadius(weaponCollider.center);
+        this.weaponCollider.enabled = true;
         weaponHUD.Toggle(false);
     }
     /// <summary>
@@ -225,7 +225,7 @@ public class InteractiveWeapon : MonoBehaviour
     //ui 갱신.
     public void EndReload()
     {
-        UpdateUHD();
+        UpdateHUD();
     }
 
     /// <summary>
@@ -239,7 +239,7 @@ public class InteractiveWeapon : MonoBehaviour
         if(currentMagCapacity > 0)
         {
             currentMagCapacity--;
-            UpdateUHD();
+            UpdateHUD();
             return true;
         }// 총알이 없을 때 사운드 생성.
         if(firstShot && noBulletSound != SoundList.None)

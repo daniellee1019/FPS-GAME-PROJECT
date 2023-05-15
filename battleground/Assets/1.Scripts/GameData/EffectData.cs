@@ -58,7 +58,7 @@ public class EffectData : BaseData
                         case "id":
                             currentID = int.Parse(reader.ReadString());
                             this.effectClips[currentID] = new EffectClip();
-                            this.effectClips[currentID].realID = currentID;
+                            this.effectClips[currentID].realId = currentID;
                             break;
                         case "name":
                             this.names[currentID] = reader.ReadString();
@@ -126,16 +126,16 @@ public class EffectData : BaseData
         this.names = ArrayHelper.Remove(index, this.names);
         if(this.names.Length == 0)
         {
-            this.name = null;
+            this.names = null;
         }
         this.effectClips = ArrayHelper.Remove(index, this.effectClips);
     }
 
     public void ClearData()
     {
-        foreach(EffectClip cilp in this.effectClips)
+        foreach(EffectClip clip in this.effectClips)
         {
-            cilp.ReleaseEffect();
+            clip.ReleaseEffect();
         }
         this.effectClips = null;
         this.names = null;
@@ -153,7 +153,7 @@ public class EffectData : BaseData
         clip.effectName = original.effectName;
         clip.effectType = original.effectType;
         clip.effectPath = original.effectPath;
-        clip.realID = this.effectClips.Length;
+        clip.realId = this.effectClips.Length;
         return clip;
         
     }

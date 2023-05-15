@@ -30,16 +30,16 @@ public class MoveBehaviour : GenericBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         jumpBool = Animator.StringToHash(FC.AnimatorKey.Jump);
         groundedBool = Animator.StringToHash(FC.AnimatorKey.Grounded);
-        behaviorController.GetAnimator.SetBool(groundedBool, true);
+        behaviourController.GetAnimator.SetBool(groundedBool, true);
 
         //
-        behaviorController.SubScribeBehavior(this);
-        behaviorController.RegisterDefaultBehaviour(this.behaviorCode);
+        behaviourController.SubScribeBehavior(this);
+        behaviourController.RegisterDefaultBehaviour(this.behaviorCode);
         speedSeeker = runSpeed;
     }
     Vector3 Rotating(float horizontal, float vertical)
     {
-        Vector3 forward = behaviorController.playerCamera.TransformDirection(Vector3.forward);
+        Vector3 forward = behaviourController.playerCamera.TransformDirection(Vector3.forward);
 
         forward.y = 0.0f;
         forward = forward.normalized;
@@ -49,20 +49,20 @@ public class MoveBehaviour : GenericBehaviour
         targetDirection = forward * vertical + right * horizontal;
 
         //보간을 통해 움직임을 자연스럽게 해줌
-        if(behaviorController.IsMoving() && targetDirection != Vector3.zero)
+        if(behaviourController.IsMoving() && targetDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-            Quaternion newRotation = Quaternion.Slerp(behaviorController.GetRigidbody.rotation, targetRotation,
-                behaviorController.turnSmoothing);
-            behaviorController.GetRigidbody.MoveRotation(newRotation);
-            behaviorController.SetLastDirection(targetDirection);
+            Quaternion newRotation = Quaternion.Slerp(behaviourController.GetRigidbody.rotation, targetRotation,
+                behaviourController.turnSmoothing);
+            behaviourController.GetRigidbody.MoveRotation(newRotation);
+            behaviourController.SetLastDirection(targetDirection);
 
         }
         //repositioning -> why? 하늘을 바라볼 수 있기 때문에.
         if(!(Mathf.Abs(horizontal) > 0.9f || Mathf.Abs(vertical) > 0.9f))
         {
-            behaviorController.Repositioning();
+            behaviourController.Repositioning();
         }
         return targetDirection;
     }
@@ -71,17 +71,17 @@ public class MoveBehaviour : GenericBehaviour
      */
     private void RemoveVerticalVelocity()
     {
-        Vector3 horizentalVelocity = behaviorController.GetRigidbody.velocity;
+        Vector3 horizentalVelocity = behaviourController.GetRigidbody.velocity;
         horizentalVelocity.y = 0.0f;
-        behaviorController.GetRigidbody.velocity = horizentalVelocity;
+        behaviourController.GetRigidbody.velocity = horizentalVelocity;
     }
 
     void MovementManagement(float horizontal, float vertical)
     {
-        if (behaviorController.IsGrounded())
+        if (behaviourController.IsGrounded())
         {
-            behaviorController.GetRigidbody.useGravity = true;
-        }else if(!behaviorController.GetAnimator.GetBool(jumpBool) && behaviorController.GetRigidbody.velocity.y > 0)
+            behaviourController.GetRigidbody.useGravity = true;
+        }else if(!behaviourController.GetAnimator.GetBool(jumpBool) && behaviourController.GetRigidbody.velocity.y > 0)
         {
             RemoveVerticalVelocity();
         } // 점프 중이 아님에도 불구하고 y값이 0보다 크다면 어떤 물체에 껴있는 경우.
@@ -91,22 +91,22 @@ public class MoveBehaviour : GenericBehaviour
         speedSeeker += Input.GetAxis("Mouse ScrollWheel");
         speedSeeker = Mathf.Clamp(speedSeeker, walkSpeed, runSpeed);
         speed *= speedSeeker;
-        if (behaviorController.IsSprinting())
+        if (behaviourController.IsSprinting())
         {
             speed = sprintSpeed;
         }
         // 애니메이션 speed 파라미터 조정. 캐릭터의 각 모션 속도 값. ex) 수그리기, 앉기, 뛰기 등
-        behaviorController.GetAnimator.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
+        behaviourController.GetAnimator.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
     }
 
     private void OnCollisionStay(Collision collision) // 충돌중
     {
         isColliding = true; // 웅크린상태
-        if(behaviorController.IsCurrentBehaviour(GetBehaviorCode) && collision.GetContact(0).normal.y <= 0.1f)
+        if(behaviourController.IsCurrentBehaviour(GetBehaviorCode) && collision.GetContact(0).normal.y <= 0.1f)
         {
-            float vel = behaviorController.GetAnimator.velocity.magnitude;
+            float vel = behaviourController.GetAnimator.velocity.magnitude;
             Vector3 targentMove = Vector3.ProjectOnPlane(myTransform.forward, collision.GetContact(0).normal).normalized * vel;
-            behaviorController.GetRigidbody.AddForce(targentMove, ForceMode.VelocityChange); // 부딪히면 강제로 미끄러지게 함.
+            behaviourController.GetRigidbody.AddForce(targentMove, ForceMode.VelocityChange); // 부딪히면 강제로 미끄러지게 함.
         }
     }
     private void OnCollisionExit(Collision collision)
@@ -121,35 +121,35 @@ public class MoveBehaviour : GenericBehaviour
      */
     void JumpManagement()
     {
-        if(jump && !behaviorController.GetAnimator.GetBool(jumpBool) && behaviorController.IsGrounded())
+        if(jump && !behaviourController.GetAnimator.GetBool(jumpBool) && behaviourController.IsGrounded())
         {
-            behaviorController.LockTempBehaviour(behaviorCode); // 점프중에는 이동할 수 없게 잠굼.
-            behaviorController.GetAnimator.SetBool(jumpBool, true);
-            if(behaviorController.GetAnimator.GetFloat(speedFloat) > 0.1f)
+            behaviourController.LockTempBehaviour(behaviorCode); // 점프중에는 이동할 수 없게 잠굼.
+            behaviourController.GetAnimator.SetBool(jumpBool, true);
+            if(behaviourController.GetAnimator.GetFloat(speedFloat) > 0.1f)
             {
                 capsuleCollider.material.dynamicFriction = 0f; // 원활히 장애물을 넘기 위해 마찰력을 줄여준다.
                 capsuleCollider.material.staticFriction = 0f;
                 RemoveVerticalVelocity();
                 float velocity = 2f * Mathf.Abs(Physics.gravity.y) * jumpHeight;
                 velocity = Mathf.Sqrt(velocity);
-                behaviorController.GetRigidbody.AddForce(Vector3.up * velocity, ForceMode.VelocityChange);
+                behaviourController.GetRigidbody.AddForce(Vector3.up * velocity, ForceMode.VelocityChange);
             }
 
-        }else if (behaviorController.GetAnimator.GetBool(jumpBool))
+        }else if (behaviourController.GetAnimator.GetBool(jumpBool))
         {
-            if(!behaviorController.IsGrounded() && !isColliding && behaviorController.GetTempLockStatus())
+            if(!behaviourController.IsGrounded() && !isColliding && behaviourController.GetTempLockStatus())
             {
-                behaviorController.GetRigidbody.AddForce(myTransform.forward * jumpInertialForce * Physics.gravity.magnitude *
+                behaviourController.GetRigidbody.AddForce(myTransform.forward * jumpInertialForce * Physics.gravity.magnitude *
                     sprintSpeed, ForceMode.Acceleration);
             }
-            if(behaviorController.GetRigidbody.velocity.y < 0f && behaviorController.IsGrounded())
+            if(behaviourController.GetRigidbody.velocity.y < 0f && behaviourController.IsGrounded())
             {
-                behaviorController.GetAnimator.SetBool(groundedBool, true);
+                behaviourController.GetAnimator.SetBool(groundedBool, true);
                 capsuleCollider.material.dynamicFriction = 0.6f;
                 capsuleCollider.material.staticFriction = 0.6f;
                 jump = false;
-                behaviorController.GetAnimator.SetBool(jumpBool, false);
-                behaviorController.UnLockTempBehaviour(this.behaviorCode);
+                behaviourController.GetAnimator.SetBool(jumpBool, false);
+                behaviourController.UnLockTempBehaviour(this.behaviorCode);
             }
         }
     }
@@ -158,15 +158,15 @@ public class MoveBehaviour : GenericBehaviour
     //점프키를 오버라이딩 받았는지 update 해준다.
     private void Update()
     {
-        if (!jump && Input.GetButtonDown(ButtonName.Jump) && behaviorController.IsCurrentBehaviour(this.behaviorCode) &&
-            !behaviorController.IsOverriding())
+        if (!jump && Input.GetButtonDown(ButtonName.Jump) && behaviourController.IsCurrentBehaviour(this.behaviorCode) &&
+            !behaviourController.IsOverriding())
         {
             jump = true;
         }
     }
     public override void LocalFixedUpdate()
     {
-        MovementManagement(behaviorController.GetH, behaviorController.GetV);
+        MovementManagement(behaviourController.GetH, behaviourController.GetV);
         JumpManagement();
     }
 }

@@ -33,36 +33,36 @@ public class AimBehaviour : GenericBehaviour
         cornerBool = Animator.StringToHash(AnimatorKey.Corner);
 
         //value
-        Transform hips = behaviorController.GetAnimator.GetBoneTransform(HumanBodyBones.Hips);
+        Transform hips = behaviourController.GetAnimator.GetBoneTransform(HumanBodyBones.Hips);
         initialRootRotation = (hips.parent == transform) ? Vector3.zero : hips.parent.localEulerAngles;
         initialHipRotation = hips.localEulerAngles;
-        initialSpineRotation = behaviorController.GetAnimator.
+        initialSpineRotation = behaviourController.GetAnimator.
             GetBoneTransform(HumanBodyBones.Spine).localEulerAngles;
 
     }
     // 카메라에 따라 플레이어를 올바른 방향으로 회전.
     void Rotating()
     {
-        Vector3 forward = behaviorController.playerCamera.TransformDirection(Vector3.forward);
+        Vector3 forward = behaviourController.playerCamera.TransformDirection(Vector3.forward);
         forward.y = 0.0f;
         forward = forward.normalized;
 
-        Quaternion targetRotation = Quaternion.Euler(0f, behaviorController.GetCamScript.GetH, 0.0f); // 좌우는 회전을 먼저 적용.
+        Quaternion targetRotation = Quaternion.Euler(0f, behaviourController.GetCamScript.GetH, 0.0f); // 좌우는 회전을 먼저 적용.
         float minSpeed = Quaternion.Angle(myTransform.rotation, targetRotation) * aimTurnSmoothing;
 
         if (peekConer)
         {
             //조준 중일때 플레이어 상체만 살짝 기울여 주기 위함.
-            myTransform.rotation = Quaternion.LookRotation(-behaviorController.GetLastDirection()); // IK(역운동학) 적용. 쉽게 말하면 물체를 잡을 때 그에 맞춰 회전값을 적용할 수 있게 포지션을 역 방향으로 작업하는 것.
+            myTransform.rotation = Quaternion.LookRotation(-behaviourController.GetLastDirection()); // IK(역운동학) 적용. 쉽게 말하면 물체를 잡을 때 그에 맞춰 회전값을 적용할 수 있게 포지션을 역 방향으로 작업하는 것.
             targetRotation *= Quaternion.Euler(initialRootRotation);
             targetRotation *= Quaternion.Euler(initialHipRotation);
             targetRotation *= Quaternion.Euler(initialSpineRotation);
-            Transform spine = behaviorController.GetAnimator.GetBoneTransform(HumanBodyBones.Spine);
+            Transform spine = behaviourController.GetAnimator.GetBoneTransform(HumanBodyBones.Spine);
             spine.rotation = targetRotation;
         }
         else
         {
-            behaviorController.SetLastDirection(forward);
+            behaviourController.SetLastDirection(forward);
             myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, minSpeed * Time.deltaTime);
         }
     }
@@ -75,7 +75,7 @@ public class AimBehaviour : GenericBehaviour
     {
         yield return new WaitForSeconds(0.05f);
         //조준이 불가능한 상태일때에 대한 예외처리.
-        if(behaviorController.GetTempLockStatus(this.behaviorCode) || behaviorController.IsOverriding(this))
+        if(behaviourController.GetTempLockStatus(this.behaviorCode) || behaviourController.IsOverriding(this))
         {
             yield return false;
         }
@@ -85,13 +85,13 @@ public class AimBehaviour : GenericBehaviour
             int signal = 1;
             if (peekConer)
             {
-                signal = (int)Mathf.Sign(behaviorController.GetH);
+                signal = (int)Mathf.Sign(behaviourController.GetH);
             }
             aimCamOffSet.x = Mathf.Abs(aimCamOffSet.x) * signal; // 기울일 때 값 보정.
             aimPivotOffSet.x = Mathf.Abs(aimPivotOffSet.x) * signal;
             yield return new WaitForSeconds(0.1f);
-            behaviorController.GetAnimator.SetFloat(speedFloat, 0.0f); //조준 중에는 뛰기 x
-            behaviorController.OverrideWithBehaviour(this);
+            behaviourController.GetAnimator.SetFloat(speedFloat, 0.0f); //조준 중에는 뛰기 x
+            behaviourController.OverrideWithBehaviour(this);
         }
     }
 
@@ -99,16 +99,16 @@ public class AimBehaviour : GenericBehaviour
     {
         aim = false;
         yield return new WaitForSeconds(0.3f);
-        behaviorController.GetCamScript.ResetTargetOffsets();
-        behaviorController.GetCamScript.ResetMaxVerticalAngle();
+        behaviourController.GetCamScript.ResetTargetOffsets();
+        behaviourController.GetCamScript.ResetMaxVerticalAngle();
         yield return new WaitForSeconds(0.1f);
-        behaviorController.RevokeOverridingBehaviour(this);
+        behaviourController.RevokeOverridingBehaviour(this);
     }
     public override void LocalFixedUpdate()
     {
         if (aim)
         {
-            behaviorController.GetCamScript.SetTargetOffset(aimPivotOffSet, aimCamOffSet); // 조준 전 카메라 위치에서 조준 후 카메라 위치 변경.
+            behaviourController.GetCamScript.SetTargetOffset(aimPivotOffSet, aimCamOffSet); // 조준 전 카메라 위치에서 조준 후 카메라 위치 변경.
         }
     }
     public override void LocalLateUpdate()
@@ -118,7 +118,7 @@ public class AimBehaviour : GenericBehaviour
 
     private void Update()
     {
-        peekConer = behaviorController.GetAnimator.GetBool(cornerBool);
+        peekConer = behaviourController.GetAnimator.GetBool(cornerBool);
 
         if(Input.GetAxisRaw(ButtonName.Aim) != 0 && !aim)
         {
@@ -134,13 +134,13 @@ public class AimBehaviour : GenericBehaviour
             aimCamOffSet.x = aimCamOffSet.x * (-1);
             aimPivotOffSet.x = aimPivotOffSet.x * (-1); // 조준 시 좌우 기울임 바뀜
         }
-        behaviorController.GetAnimator.SetBool(aimBool, aim);
+        behaviourController.GetAnimator.SetBool(aimBool, aim);
     }
     private void OnGUI()
     {
         if(crossHair != null)
         {
-            float length = behaviorController.GetCamScript.GetCurrentPivotMagnitude(aimPivotOffSet);
+            float length = behaviourController.GetCamScript.GetCurrentPivotMagnitude(aimPivotOffSet);
             if(length < 0.05f) // 조준이 완료 됐다면.
             {
                 GUI.DrawTexture(new Rect(Screen.width * 0.5f - (crossHair.width * 0.5f), Screen.height * 0.5f - (crossHair.height * 0.5f),
