@@ -27,6 +27,7 @@ public class GettingInAndOutOfCars : MonoBehaviour
 
     bool inCar = false;
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,7 @@ public class GettingInAndOutOfCars : MonoBehaviour
         
         car.GetComponent<CarController>();
         car.GetComponent<CarUserControl>();
+        car.GetComponent<TankFunction>();
         
     }
 
@@ -45,6 +47,7 @@ public class GettingInAndOutOfCars : MonoBehaviour
             if (inCar)
             {
                 GetOutOfCar();
+                
 
             }
             else if (Vector3.Distance(car.transform.position, human.transform.position) < closeDistance)
@@ -67,8 +70,10 @@ public class GettingInAndOutOfCars : MonoBehaviour
         CarCam.SetActive(false);
         car.GetComponent<CarController>().enabled = false;
         car.GetComponent<CarUserControl>().enabled = false;
+        car.GetComponent<TankFunction>().enabled = false;
 
         carEngine.Move(0, 0, 1, 1);
+
     }
 
 
@@ -83,6 +88,8 @@ public class GettingInAndOutOfCars : MonoBehaviour
 
         car.GetComponent<CarController>().enabled = true;
         car.GetComponent<CarUserControl>().enabled = true;
+        car.GetComponent<TankFunction>().enabled = true;
 
     }
+
 }
