@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using FC;
+
 /// <summary>
 /// 다른 Behaviour 보다 상위에 있다. -> 조준이 먼저.
 /// 마우스 오른쪽 버튼으로 조준 및 휠버튼으로 좌우 카메라 변경

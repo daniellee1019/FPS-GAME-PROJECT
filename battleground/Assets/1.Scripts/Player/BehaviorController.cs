@@ -21,6 +21,7 @@ public class BehaviorController : MonoBehaviour
     private Animator myAnimator;
     private Rigidbody myRigidbody;
     private ThirdPersonOrbitCam camSprint;
+    private ThirdTankOrbitCam camSprintT;
     private Transform myTransform;
 
     // 기본 속성 값들.
