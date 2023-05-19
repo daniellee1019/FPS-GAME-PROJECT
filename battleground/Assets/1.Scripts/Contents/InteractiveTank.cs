@@ -32,8 +32,8 @@ public class InteractiveTank : MonoBehaviour
 
     public int currentMagCapacity, totalBullets; //현재 탄창 양과, 소지하고 있는 전체 총알양
     private int fullMag, maxBullets; // 재장전시 꽉 채우는 탄의 양과 한번에 채울 수 있는 최대 총알량
-    private GameObject player, gameController;
-    private ShootBehaviour playerInventory; // 인벤토리를 따로 빼서 만드는게 정석이다. 실무에선 이렇게 x 
+    private GameObject Tank, gameController;
+    private ShootBehaviour TankInventory; // 인벤토리를 따로 빼서 만드는게 정석이다. 실무에선 이렇게 x 
     private BoxCollider weaponCollider;
     private SphereCollider interactiveRadius;
 
@@ -58,8 +58,8 @@ public class InteractiveTank : MonoBehaviour
         {
             tr.gameObject.layer = LayerMask.NameToLayer(TagAndLayer.LayerName.IgnoreRayCast);
         }
-        player = GameObject.FindGameObjectWithTag(TagAndLayer.TagName.Player);
-        playerInventory = player.GetComponent<ShootBehaviour>();
+        Tank = GameObject.FindGameObjectWithTag(TagAndLayer.TagName.Tank);
+       
         gameController = GameObject.FindGameObjectWithTag(TagAndLayer.TagName.GameController);
 
         if (weaponHUD == null)
@@ -109,7 +109,7 @@ public class InteractiveTank : MonoBehaviour
         if (toggle)
         {
             GetRideHUD.position = this.transform.position + Vector3.up * 3f;
-            Vector3 direction = player.GetComponent<BehaviorController>().playerCamera.forward;
+            Vector3 direction = Tank.GetComponent<BehaviorController>().playerCamera.forward;
             direction.y = 0;
             GetRideHUD.rotation = Quaternion.LookRotation(direction);
             pickupHUD_Label.text = "Ride on " + this.gameObject.name;
@@ -120,21 +120,19 @@ public class InteractiveTank : MonoBehaviour
     // 총알량 업데이트 함수.
     private void UpdateHUD()
     {
+
         weaponHUD.UpdateWeaponHUD(weaponSprite, currentMagCapacity, fullMag, totalBullets);
     }
 
-    /*
+    
     //interaction이 일어나면 호출되는 토글 함수.
     public void Toggle(bool active)
     {
-        if (active)
-        {
-            SoundManager.Instance.PlayOneShotEffect((int)getTank, transform.position, 0.5f);
-        }
+        
         weaponHUD.Toggle(active);
         UpdateHUD();
     }
-    */
+    
     
 
     private void Update()
@@ -145,15 +143,16 @@ public class InteractiveTank : MonoBehaviour
 
             //TankRigidbody.isKinematic = true;
             weaponCollider.enabled = false;
-            //playerInventory.AddWeapon(this);
+            //TankInventory.AddWeapon(this);
             Destroy(interactiveRadius);
-            //this.Toggle(true);
+            this.Toggle(true);
             this.isGetRide = false; // 무기를 먹은 상태.
 
             TogglePickHUD(false);
 
         }
     }
+
     /*
     private void OnCollisionEnter(Collision collision)
     {
@@ -170,7 +169,7 @@ public class InteractiveTank : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         // 반경 범위 외로 벗어나면, 해당 트리거, ui 끄기.
-        if (other.gameObject == player)
+        if (other.gameObject == Tank)
         {
             isGetRide = false;
             TogglePickHUD(false);
@@ -178,7 +177,7 @@ public class InteractiveTank : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == player && playerInventory && playerInventory.isActiveAndEnabled)
+        if (other.gameObject == Tank && TankInventory && TankInventory.isActiveAndEnabled)
         {
             isGetRide = true;
             TogglePickHUD(true);

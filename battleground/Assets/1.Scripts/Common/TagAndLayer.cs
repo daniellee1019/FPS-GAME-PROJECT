@@ -36,6 +36,7 @@ namespace FC
             Enemy = 12,
             Bound = 13,
             Environment = 14,
+            Tank = 15,
             
         }
 
@@ -53,6 +54,7 @@ namespace FC
             public const int Enemy = 1 << 12;
             public const int Bound = 1 << 13;
             public const int Environment = 1 << 14;
+            public const int Tank = 1 << 15;
         }
 
         public static int GetLayerByName(string layerName)
@@ -64,6 +66,7 @@ namespace FC
         {
             public const string Untagged = "Untagged";
             public const string Player = "Player";
+            public const string Tank = "Tank";
             public const string Enemy = "Enemy";
             public const string GameController = "GameController";
             public const string Finish = "Finish";

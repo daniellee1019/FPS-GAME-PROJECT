@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TankFunction : MonoBehaviour
 {
+
+
+
     public int moveSpeed = 5; // 속도
     public float move;          // 거리
     public float moveVertical;
@@ -26,7 +29,7 @@ public class TankFunction : MonoBehaviour
     public GameObject bulletPrefab; // 총알 프리펩
     private Transform muzzle; // 나가는 위치
 
-    public float DestroyTime = 2.0f;
+    public float DestroyTime = 5.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,15 +56,6 @@ public class TankFunction : MonoBehaviour
             ang.z -= 360;
         ang.z = Mathf.Clamp(ang.z, -15, 5);
         gunBase.transform.eulerAngles = ang;
-
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation) as GameObject;
-            Rigidbody bulletAddforce = bullet.GetComponent<Rigidbody>();
-            bulletAddforce.AddForce(turret.transform.forward * power);
-            Destroy(bullet, DestroyTime);
-        }
     }
 }
 

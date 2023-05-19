@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityStandardAssets.Vehicles.Car;
-
+using Complete;
 public class GettingInAndOutOfCars : MonoBehaviour
 {
     [Header("Camera")]
@@ -27,6 +26,8 @@ public class GettingInAndOutOfCars : MonoBehaviour
 
     bool inCar = false;
 
+    public GameObject aimSlider;
+
     
 
     // Start is called before the first frame update
@@ -36,6 +37,10 @@ public class GettingInAndOutOfCars : MonoBehaviour
         car.GetComponent<CarController>();
         car.GetComponent<CarUserControl>();
         car.GetComponent<TankFunction>();
+        car.GetComponent<TankHealth>();
+        car.GetComponent<TankShooting>();
+
+        
         
     }
 
@@ -71,6 +76,10 @@ public class GettingInAndOutOfCars : MonoBehaviour
         car.GetComponent<CarController>().enabled = false;
         car.GetComponent<CarUserControl>().enabled = false;
         car.GetComponent<TankFunction>().enabled = false;
+        car.GetComponent<TankHealth>().enabled = false;
+        car.GetComponent<TankShooting>().enabled = false;
+
+        aimSlider.SetActive(false);
 
         carEngine.Move(0, 0, 1, 1);
 
@@ -89,6 +98,10 @@ public class GettingInAndOutOfCars : MonoBehaviour
         car.GetComponent<CarController>().enabled = true;
         car.GetComponent<CarUserControl>().enabled = true;
         car.GetComponent<TankFunction>().enabled = true;
+        car.GetComponent<TankHealth>().enabled = true;
+        car.GetComponent<TankShooting>().enabled = true;
+
+        aimSlider.SetActive(true);
 
     }
 
